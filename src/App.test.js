@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
+import { replaceCamelWithSpaces } from "./App";
 
 test("button has correct initial color", () => {
     render(<App />);
@@ -70,13 +71,16 @@ test("Clicked disabled button has gray background and reverts to blue", () => {
     expect(colorButton).toHaveStyle({ backgroundColor: "blue" });
 });
 
-// test('button has correct initial text', () => {
+describe("spaces before camel-case capital letters", () => {
+    test("Works for no inner capital letters", () => {
+        expect(replaceCamelWithSpaces("Red")).toBe("Red");
+    });
 
-// });
+    test("Works for one inner capital letters", () => {
+        expect(replaceCamelWithSpaces("MidnightBlue")).toBe("Midnight Blue");
+    });
 
-// test("button turns blue when clicked", () => {
-//   render(<App />);
-//   // find an element with a role of button and text of 'Change to blue'
-//   const colorButton = screen.getByRole("button", { name: "Change to blue" });
-//   expect(colorButton).toHaveStyle({ backgroundColor: "red" });
-// });
+    test("Works for multiple inner capital letters", () => {
+        expect(replaceCamelWithSpaces("MediumVioletRed")).toBe("Medium Violet Red");
+    });
+});
